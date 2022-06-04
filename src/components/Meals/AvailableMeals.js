@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../UI/Card";
 import classes from "./AvailableMeals.module.css";
 import MealItem from "./MealItem/MealItem";
+import { SpinnerCircular } from 'spinners-react';
 // const DUMMY_MEALS = [
 //   {
 //     id: "m1",
@@ -37,7 +38,7 @@ const AvailableMeals = () => {
   useEffect(() => {
     fetch('https://foods-a231a-default-rtdb.asia-southeast1.firebasedatabase.app/Meals.json')
       .then(response => {
-        if(!response.ok){
+        if (!response.ok) {
           throw new Error('Something went wrong!');
         }
         return response.json();
@@ -61,15 +62,18 @@ const AvailableMeals = () => {
       })
   }, [])
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <section className={classes.MealsLoading}>
-        <p>Loading...</p>
+        <SpinnerCircular />
+        {/* <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner> */}
       </section>
     )
   }
 
-  if(httpErrors){
+  if (httpErrors) {
     return (
       <section className={classes.MealsError}>
         <p>{httpErrors}</p>

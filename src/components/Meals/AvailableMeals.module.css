@@ -6,6 +6,7 @@
 }
 .MealsLoading {
   text-align: center;
+  padding: 15px 0;
 }
 .MealsError {
   text-align: center;

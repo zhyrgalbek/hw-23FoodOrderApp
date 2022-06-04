@@ -4,6 +4,8 @@ import CartContext from "../../store/cart-context";
 import { useContext, useState } from "react";
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
@@ -12,12 +14,12 @@ const Cart = (props) => {
   // const totalAmount = `$${CartStx.totalAmount.toFixed(2)}`;
 
 
-  const cartItemRemoveHandler = (id)=>{
+  const cartItemRemoveHandler = (id) => {
     CartStx.removeItem(id);
   }
 
-  const cartItemAddHandler = (item)=>{
-    CartStx.addItem({...item, amount: 1})
+  const cartItemAddHandler = (item) => {
+    CartStx.addItem({ ...item, amount: 1 })
   }
 
 
@@ -30,33 +32,36 @@ const Cart = (props) => {
           amount={item.amount}
           price={item.price}
           onRemove={cartItemRemoveHandler.bind(null, item.id)}
-          onAdd={()=>cartItemAddHandler(item)} 
-         />
+          onAdd={() => cartItemAddHandler(item)}
+        />
       ))}
     </ul>
   );
 
-  const orderHandler = ()=>{
+  const orderHandler = () => {
     setIsCheckout(true);
   }
-  
+
   return (
-    <Modal onCloseCart={props.onCloseCart}>
-      {cartItems}
-      <div className={classes.total}>
-        <span>Total Amount</span>
-        <span>{CartStx.totalAmount.toFixed(2)}</span>
-      </div>
-      {isCheckout && <Checkout onCansel={props.onCloseCart} />}
-      <div className={classes.actions}>
-        <button className={classes["button--alt"]} onClick={props.onCloseCart}>
-          Close
-        </button>
-        {
-          hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>
-        }
-      </div>
-    </Modal>
+    <>
+      <ToastContainer />
+      <Modal onCloseCart={props.onCloseCart}>
+        {cartItems}
+        <div className={classes.total}>
+          <span>Total Amount</span>
+          <span>{CartStx.totalAmount.toFixed(2)}</span>
+        </div>
+        {isCheckout && <Checkout onCansel={props.onCloseCart} />}
+        <div className={classes.actions}>
+          <button className={classes["button--alt"]} onClick={props.onCloseCart}>
+            Close
+          </button>
+          {
+            hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>
+          }
+        </div>
+      </Modal>
+    </>
   );
 };
 export default Cart;
